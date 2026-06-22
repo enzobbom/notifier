@@ -2,7 +2,6 @@ package com.javanauta.ts.notifier.application.usecase;
 
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
 import com.javanauta.ts.notifier.application.port.email.EmailComposer;
-import com.javanauta.ts.notifier.application.port.email.EmailMessage;
 import com.javanauta.ts.notifier.application.port.email.EmailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
