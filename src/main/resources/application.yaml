@@ -23,6 +23,11 @@ spring:
           writetimeout: 5000
   thymeleaf:
     enable: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 sending:
   email:
     sender: ${TS_SMTP_EMAIL:}
@@ -41,8 +46,3 @@ management:
     health:
       probes:
         enabled: true
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
