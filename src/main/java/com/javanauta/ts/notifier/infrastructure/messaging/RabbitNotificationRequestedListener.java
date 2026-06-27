@@ -3,7 +3,6 @@ package com.javanauta.ts.notifier.infrastructure.messaging;
 import com.javanauta.ts.events.messaging.Queues;
 import com.javanauta.ts.events.notification.NotificationRequestedEvent;
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
-import com.javanauta.ts.notifier.application.command.enums.NotificationStatus;
 import com.javanauta.ts.notifier.application.port.NotificationRequestedListener;
 import com.javanauta.ts.notifier.application.usecase.SendNotificationService;
 import lombok.AllArgsConstructor;
@@ -34,7 +33,6 @@ public class RabbitNotificationRequestedListener implements NotificationRequeste
                 event.taskDescription(),
                 event.taskScheduledDateTime(),
                 event.taskRecipient(),
-                NotificationStatus.PENDING,
                 ZoneId.of(event.taskZoneId())
         );
 

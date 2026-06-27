@@ -22,7 +22,6 @@ public class SendNotificationService {
     private final NotificationCompletedPublisher notificationCompletedPublisher;
 
     public void sendNotification(NotifyTaskCommand notifyTaskCommand) {
-        if (!notifyTaskCommand.canBeNotified()) {return;}
         sendEmailNotification(notifyTaskCommand);
 
         NotificationCompletedEvent event = new NotificationCompletedEvent(
