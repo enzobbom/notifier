@@ -12,6 +12,7 @@ import java.time.ZoneId;
 public interface NotificationMapper {
 
     @Mapping(target = "title", source = "name")
+    @Mapping(target = "recipient", source = "userEmail")
     @Mapping(target = "timeZoneId", expression = "java(NotificationMapper.convertTimeZoneId(dto))")
     NotifyTaskCommand toCommand(NotifyTaskRequestDTO dto);
 
@@ -19,4 +20,3 @@ public interface NotificationMapper {
         return ZoneId.of(dto.timeZoneId());
     }
 }
-

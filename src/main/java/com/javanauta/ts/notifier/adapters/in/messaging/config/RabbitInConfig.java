@@ -7,8 +7,6 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,10 +32,5 @@ public class RabbitInConfig {
                 .bind(notificationRequestQueue)
                 .to(notificationExchange)
                 .with(RoutingKeys.NOTIFICATION_REQUEST);
-    }
-
-    @Bean
-    public MessageConverter messageConverter() {
-        return new JacksonJsonMessageConverter();
     }
 }
