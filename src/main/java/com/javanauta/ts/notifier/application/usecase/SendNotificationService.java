@@ -1,17 +1,12 @@
 package com.javanauta.ts.notifier.application.usecase;
 
-import com.javanauta.ts.events.notification.NotificationCompletedEvent;
-import com.javanauta.ts.events.notification.enums.NotificationResult;
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
-import com.javanauta.ts.notifier.ports.out.messaging.NotificationCompletedPublisher;
 import com.javanauta.ts.notifier.ports.out.email.EmailComposer;
 import com.javanauta.ts.notifier.ports.out.email.EmailSender;
+import com.javanauta.ts.notifier.ports.out.messaging.NotificationCompletedPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,15 +18,7 @@ public class SendNotificationService {
 
     public void sendNotification(NotifyTaskCommand notifyTaskCommand) {
         sendEmailNotification(notifyTaskCommand);
-
-        NotificationCompletedEvent event = new NotificationCompletedEvent(
-                UUID.randomUUID(),
-                Instant.now(),
-                notifyTaskCommand.id(),
-                NotificationResult.SUCCESS,
-                ""
-        );
-        notificationCompletedPublisher.publishNotificationCompleted(event);
+        notificationCompletedPublisher.publishNotificationCompleted(notifyTaskCommand);
     }
 
     private void sendEmailNotification(NotifyTaskCommand notifyTaskCommand) {

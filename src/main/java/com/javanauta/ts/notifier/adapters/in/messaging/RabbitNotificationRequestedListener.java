@@ -2,15 +2,12 @@ package com.javanauta.ts.notifier.adapters.in.messaging;
 
 import com.javanauta.ts.events.messaging.Queues;
 import com.javanauta.ts.events.notification.NotificationRequestedEvent;
-import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
-import com.javanauta.ts.notifier.ports.in.messaging.NotificationRequestedListener;
 import com.javanauta.ts.notifier.application.usecase.SendNotificationService;
+import com.javanauta.ts.notifier.ports.in.messaging.NotificationRequestedListener;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
-import java.time.ZoneId;
 
 @Component
 @AllArgsConstructor
@@ -18,6 +15,7 @@ import java.time.ZoneId;
 public class RabbitNotificationRequestedListener implements NotificationRequestedListener {
 
     private final SendNotificationService notificationService;
+    private final NotificationMapper notificationMapper;
 
     @RabbitListener(queues = Queues.NOTIFICATION_REQUEST)
     @Override
@@ -27,16 +25,7 @@ public class RabbitNotificationRequestedListener implements NotificationRequeste
                 event.taskId()
         );
 
-        NotifyTaskCommand command = new NotifyTaskCommand(
-                event.taskId(),
-                event.taskName(),
-                event.taskDescription(),
-                event.taskScheduledDateTime(),
-                event.taskRecipient(),
-                ZoneId.of(event.taskZoneId())
-        );
-
-        notificationService.sendNotification(command);
+        notificationService.sendNotification(notificationMapper.toCommand(event));
 
         log.info("Handled successfully");
     }

@@ -1,7 +1,7 @@
 package com.javanauta.ts.notifier.adapters.out.email.sender;
 
 import com.javanauta.ts.notifier.application.exception.EmailException;
-import com.javanauta.ts.notifier.ports.out.email.EmailMessage;
+import com.javanauta.ts.notifier.adapters.out.email.data.EmailMessage;
 import com.javanauta.ts.notifier.ports.out.email.EmailSender;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;

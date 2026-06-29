@@ -2,7 +2,7 @@ package com.javanauta.ts.notifier.adapters.out.email.composer;
 
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
 import com.javanauta.ts.notifier.ports.out.email.EmailComposer;
-import com.javanauta.ts.notifier.ports.out.email.EmailMessage;
+import com.javanauta.ts.notifier.adapters.out.email.data.EmailMessage;
 import com.javanauta.ts.notifier.adapters.out.email.config.EmailProperties;
 import lombok.AllArgsConstructor;
 import org.thymeleaf.TemplateEngine;
