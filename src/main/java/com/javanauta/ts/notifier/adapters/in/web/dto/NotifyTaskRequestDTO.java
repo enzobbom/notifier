@@ -18,6 +18,5 @@ public record NotifyTaskRequestDTO(
         @NotNull Instant creationDateTime,
         @NotNull Instant scheduledDateTime,
         @NotBlank @Email String userEmail,
-        @NotNull NotificationStatus notificationStatus,
         @NotBlank String timeZoneId
 ) {}

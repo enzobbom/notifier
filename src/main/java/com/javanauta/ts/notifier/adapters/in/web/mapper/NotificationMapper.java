@@ -12,8 +12,6 @@ import java.time.ZoneId;
 public interface NotificationMapper {
 
     @Mapping(target = "title", source = "name")
-    @Mapping(target = "recipient", source = "userEmail")
-    @Mapping(target = "status", source = "notificationStatus")
     @Mapping(target = "timeZoneId", expression = "java(NotificationMapper.convertTimeZoneId(dto))")
     NotifyTaskCommand toCommand(NotifyTaskRequestDTO dto);
 
