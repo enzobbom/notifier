@@ -62,7 +62,7 @@ public class RabbitInConfig {
                 .configureRetryPolicy(builder -> builder
                         .maxRetries(3)
                         .excludes(AmqpRejectAndDontRequeueException.class))
-                .backOffOptions(1000, 2.0, 5000)
+                .backOffOptions(60000, 1.0, 60000)
                 .build();
     }
 }
