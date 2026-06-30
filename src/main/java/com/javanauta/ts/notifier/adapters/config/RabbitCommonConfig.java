@@ -1,6 +1,8 @@
 package com.javanauta.ts.notifier.adapters.config;
 
+import com.javanauta.ts.notifier.adapters.out.email.exception.EmailException;
 import org.aopalliance.aop.Advice;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -34,8 +36,11 @@ public class RabbitCommonConfig {
 
     @Bean
     public Advice retryAdvice() {
+
         return RetryInterceptorBuilder.stateless()
-                .maxRetries(3)
+                .configureRetryPolicy(builder -> builder
+                        .maxRetries(3)
+                        .excludes(AmqpRejectAndDontRequeueException.class))
                 .backOffOptions(1000, 2.0, 5000)
                 .build();
     }
