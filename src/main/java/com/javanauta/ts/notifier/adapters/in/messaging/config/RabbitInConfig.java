@@ -43,14 +43,15 @@ public class RabbitInConfig {
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
             ConnectionFactory connectionFactory,
-            MessageConverter messageConverter) {
+            MessageConverter messageConverter,
+            Advice retryAdvice) {
 
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(messageConverter);
 
-        factory.setAdviceChain(retryAdvice());
+        factory.setAdviceChain(retryAdvice);
 
         return factory;
     }
