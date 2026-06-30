@@ -8,14 +8,14 @@ import org.mapstruct.Mapping;
 
 import java.time.ZoneId;
 
-@Mapper(componentModel = "spring", imports = { ZoneId.class, NotificationMapper.class })
-public interface NotificationMapper {
+@Mapper(componentModel = "spring", imports = { ZoneId.class, NotificationEventMapper.class })
+public interface NotificationEventMapper {
     @Mapping(target = "id", source = "taskId")
     @Mapping(target = "title", source = "taskName")
     @Mapping(target = "description", source = "taskDescription")
     @Mapping(target = "scheduledDateTime", source = "taskScheduledDateTime")
     @Mapping(target = "recipient", source = "taskRecipient")
-    @Mapping(target = "timeZoneId", expression = "java(NotificationMapper.convertTimeZoneId(event))")
+    @Mapping(target = "timeZoneId", expression = "java(NotificationEventMapper.convertTimeZoneId(event))")
     NotifyTaskCommand toCommand(NotificationRequestedEvent event);
 
     static ZoneId convertTimeZoneId(NotificationRequestedEvent event) {
