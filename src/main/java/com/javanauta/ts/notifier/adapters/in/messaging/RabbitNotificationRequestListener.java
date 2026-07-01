@@ -7,14 +7,12 @@ import com.javanauta.ts.notifier.adapters.out.email.exception.enums.EmailExcepti
 import com.javanauta.ts.notifier.application.usecase.SendNotificationService;
 import com.javanauta.ts.notifier.ports.in.messaging.NotificationRequestedListener;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-@Slf4j
 public class RabbitNotificationRequestListener implements NotificationRequestedListener {
 
     private final SendNotificationService notificationService;
