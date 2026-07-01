@@ -23,22 +23,15 @@ public class RabbitNotificationRequestListener implements NotificationRequestedL
     @RabbitListener(queues = Queues.NOTIFICATION_REQUEST)
     @Override
     public void handleNotificationRequested(NotificationRequestEvent event) {
-        log.info(
-                "Handling NotificationRequestEvent for Task '{}'",
-                event.taskId()
-        );
-
         try {
             notificationService.sendNotification(notificationEventMapper.toCommand(event));
 
         } catch (EmailException ex) {
             if (ex.getCode() == EmailExceptionCode.INFRASTRUCTURE_UNAVAILABLE) {
-                throw ex; // triggers Spring retry
+                throw ex;
             } else {
                 throw new AmqpRejectAndDontRequeueException(ex);
             }
         }
-
-        log.info("Handled successfully");
     }
 }

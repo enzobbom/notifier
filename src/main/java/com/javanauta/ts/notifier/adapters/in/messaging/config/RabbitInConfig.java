@@ -3,6 +3,7 @@ package com.javanauta.ts.notifier.adapters.in.messaging.config;
 import com.javanauta.ts.events.messaging.Exchanges;
 import com.javanauta.ts.events.messaging.Queues;
 import com.javanauta.ts.events.messaging.RoutingKeys;
+import com.javanauta.ts.notifier.adapters.out.messaging.NotificationFailedRecoverer;
 import org.aopalliance.aop.Advice;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Binding;
@@ -57,12 +58,13 @@ public class RabbitInConfig {
     }
 
     @Bean
-    public Advice retryAdvice() {
+    public Advice retryAdvice(NotificationFailedRecoverer notificationFailedRecoverer) {
         return RetryInterceptorBuilder.stateless()
                 .configureRetryPolicy(builder -> builder
                         .maxRetries(3)
                         .excludes(AmqpRejectAndDontRequeueException.class))
                 .backOffOptions(60000, 1.0, 60000)
+                .recoverer(notificationFailedRecoverer)
                 .build();
     }
 }

@@ -19,10 +19,11 @@ public class SendNotificationService {
     public void sendNotification(NotifyTaskCommand notifyTaskCommand) {
         sendEmailNotification(notifyTaskCommand);
         notificationCompletedPublisher.publishNotificationCompleted(notifyTaskCommand);
+
+        log.info("Task '{}' was successfully notified and completion event was published", notifyTaskCommand.id());
     }
 
     private void sendEmailNotification(NotifyTaskCommand notifyTaskCommand) {
         emailSender.send(emailComposer.compose(notifyTaskCommand));
-        log.info("Task '{}' was successfully notified by email", notifyTaskCommand.id());
     }
 }
