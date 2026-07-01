@@ -1,7 +1,7 @@
 package com.javanauta.ts.notifier.adapters.in.messaging;
 
 import com.javanauta.ts.events.messaging.Queues;
-import com.javanauta.ts.events.notification.NotificationRequestedEvent;
+import com.javanauta.ts.events.notification.NotificationRequestEvent;
 import com.javanauta.ts.notifier.adapters.out.email.exception.EmailException;
 import com.javanauta.ts.notifier.adapters.out.email.exception.enums.EmailExceptionCode;
 import com.javanauta.ts.notifier.application.usecase.SendNotificationService;
@@ -22,7 +22,7 @@ public class RabbitNotificationRequestedListener implements NotificationRequeste
 
     @RabbitListener(queues = Queues.NOTIFICATION_REQUEST)
     @Override
-    public void handleNotificationRequested(NotificationRequestedEvent event) {
+    public void handleNotificationRequested(NotificationRequestEvent event) {
         log.info(
                 "Handling NotificationRequestedEvent for Task '{}'",
                 event.taskId()

@@ -3,7 +3,6 @@ package com.javanauta.ts.notifier.adapters.out.messaging;
 import com.javanauta.ts.events.messaging.Exchanges;
 import com.javanauta.ts.events.messaging.RoutingKeys;
 import com.javanauta.ts.events.notification.NotificationCompletedEvent;
-import com.javanauta.ts.events.notification.enums.NotificationResult;
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
 import com.javanauta.ts.notifier.ports.out.messaging.NotificationCompletedPublisher;
 import lombok.AllArgsConstructor;
@@ -29,9 +28,7 @@ public class RabbitNotificationCompletedPublisher implements NotificationComplet
         NotificationCompletedEvent event = new NotificationCompletedEvent(
                 UUID.randomUUID(),
                 Instant.now(),
-                notifyTaskCommand.id(),
-                NotificationResult.SUCCESS,
-                ""
+                notifyTaskCommand.id()
         );
 
         log.info(

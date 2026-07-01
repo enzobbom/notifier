@@ -1,7 +1,7 @@
 package com.javanauta.ts.notifier.adapters.in.messaging;
 
 
-import com.javanauta.ts.events.notification.NotificationRequestedEvent;
+import com.javanauta.ts.events.notification.NotificationRequestEvent;
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,9 +16,9 @@ public interface NotificationEventMapper {
     @Mapping(target = "scheduledDateTime", source = "taskScheduledDateTime")
     @Mapping(target = "recipient", source = "taskRecipient")
     @Mapping(target = "timeZoneId", expression = "java(NotificationEventMapper.convertTimeZoneId(event))")
-    NotifyTaskCommand toCommand(NotificationRequestedEvent event);
+    NotifyTaskCommand toCommand(NotificationRequestEvent event);
 
-    static ZoneId convertTimeZoneId(NotificationRequestedEvent event) {
+    static ZoneId convertTimeZoneId(NotificationRequestEvent event) {
         return ZoneId.of(event.taskZoneId());
     }
 }
