@@ -22,9 +22,6 @@ public class RabbitNotificationFailedPublisher implements NotificationFailedPubl
 
     @Override
     public void publishNotificationFailed(NotificationResultDetails notificationResultDetails) {
-        String exchangeName = Exchanges.NOTIFICATION;
-        String routingKeyName = RoutingKeys.NOTIFICATION_FAILED;
-
         NotificationFailureType notificationFailureType = switch (notificationResultDetails.notificationResult()) {
             case PERMANENT_FAILURE -> NotificationFailureType.PERMANENT;
             case TEMPORARY_FAILURE -> NotificationFailureType.TEMPORARY;
@@ -40,8 +37,8 @@ public class RabbitNotificationFailedPublisher implements NotificationFailedPubl
         );
 
         rabbitTemplate.convertAndSend(
-                exchangeName,
-                routingKeyName,
+                Exchanges.NOTIFICATION,
+                RoutingKeys.NOTIFICATION_FAILED,
                 event
         );
     }

@@ -1,6 +1,8 @@
 package com.javanauta.ts.notifier.application.usecase;
 
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
+import com.javanauta.ts.notifier.application.data.NotificationResultDetails;
+import com.javanauta.ts.notifier.application.data.enums.NotificationResult;
 import com.javanauta.ts.notifier.ports.out.email.EmailComposer;
 import com.javanauta.ts.notifier.ports.out.email.EmailSender;
 import com.javanauta.ts.notifier.ports.out.messaging.NotificationCompletedPublisher;
@@ -18,7 +20,12 @@ public class SendNotificationService {
 
     public void sendNotification(NotifyTaskCommand notifyTaskCommand) {
         sendEmailNotification(notifyTaskCommand);
-        notificationCompletedPublisher.publishNotificationCompleted(notifyTaskCommand);
+
+        notificationCompletedPublisher.publishNotificationCompleted(
+                new NotificationResultDetails(
+                notifyTaskCommand.id(),
+                NotificationResult.SUCCESS,
+                null));
 
         log.info("Task '{}' was successfully notified and completion event was published", notifyTaskCommand.id());
     }
