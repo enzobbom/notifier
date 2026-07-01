@@ -1,6 +1,6 @@
 package com.javanauta.ts.notifier.adapters.in.web.controller;
 
-import com.javanauta.ts.notifier.adapters.in.web.mapper.NotificationMapper;
+import com.javanauta.ts.notifier.adapters.in.web.mapper.NotificationDTOMapper;
 import com.javanauta.ts.notifier.application.usecase.SendNotificationService;
 import com.javanauta.ts.notifier.adapters.in.web.dto.NotifyTaskRequestDTO;
 import jakarta.validation.Valid;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
 
     private final SendNotificationService sendNotificationService;
-    private final NotificationMapper notificationMapper;
+    private final NotificationDTOMapper notificationDTOMapper;
 
     @PostMapping
     public ResponseEntity<Void> sendNotification(@Valid @RequestBody NotifyTaskRequestDTO notifyTaskRequestDTO) {
-        sendNotificationService.sendNotification(notificationMapper.toCommand(notifyTaskRequestDTO));
+        sendNotificationService.sendNotification(notificationDTOMapper.toCommand(notifyTaskRequestDTO));
         return ResponseEntity.ok().build();
     }
 }

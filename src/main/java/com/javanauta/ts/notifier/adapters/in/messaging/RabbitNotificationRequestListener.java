@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class RabbitNotificationRequestedListener implements NotificationRequestedListener {
+public class RabbitNotificationRequestListener implements NotificationRequestedListener {
 
     private final SendNotificationService notificationService;
     private final NotificationEventMapper notificationEventMapper;
@@ -24,7 +24,7 @@ public class RabbitNotificationRequestedListener implements NotificationRequeste
     @Override
     public void handleNotificationRequested(NotificationRequestEvent event) {
         log.info(
-                "Handling NotificationRequestedEvent for Task '{}'",
+                "Handling NotificationRequestEvent for Task '{}'",
                 event.taskId()
         );
 
