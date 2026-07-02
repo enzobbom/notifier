@@ -1,4 +1,4 @@
-package com.javanauta.ts.notifier.adapters.in.messaging;
+package com.javanauta.ts.notifier.adapters.in.messaging.mapper;
 
 
 import com.javanauta.ts.events.notification.NotificationRequestEvent;

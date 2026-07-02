@@ -1,4 +1,4 @@
-package com.javanauta.ts.notifier.adapters.out.messaging;
+package com.javanauta.ts.notifier.adapters.in.messaging;
 
 import com.javanauta.ts.events.notification.NotificationRequestEvent;
 import com.javanauta.ts.notifier.adapters.out.email.exception.EmailException;
