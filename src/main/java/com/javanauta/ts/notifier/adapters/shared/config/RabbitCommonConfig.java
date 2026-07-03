@@ -1,4 +1,4 @@
-package com.javanauta.ts.notifier.adapters.config;
+package com.javanauta.ts.notifier.adapters.shared.config;
 
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
