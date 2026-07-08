@@ -10,9 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.UUID;
-
 @Component
 @AllArgsConstructor
 public class RabbitNotificationFailedPublisher implements NotificationFailedPublisher {
@@ -27,9 +24,7 @@ public class RabbitNotificationFailedPublisher implements NotificationFailedPubl
             default -> throw new IllegalArgumentException("Only 'FAILURE' types can be used here");
         };
 
-        NotificationFailedEvent event = new NotificationFailedEvent(
-                UUID.randomUUID(),
-                Instant.now(),
+        NotificationFailedEvent event = NotificationFailedEvent.create(
                 notificationResultDetails.taskId(),
                 notificationFailureType,
                 notificationResultDetails.errorMessage()

@@ -10,9 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.UUID;
-
 @Component
 @AllArgsConstructor
 @Slf4j
@@ -22,9 +19,7 @@ public class RabbitNotificationCompletedPublisher implements NotificationComplet
 
     @Override
     public void publishNotificationCompleted(NotificationResultDetails resultDetails) {
-        NotificationCompletedEvent event = new NotificationCompletedEvent(
-                UUID.randomUUID(),
-                Instant.now(),
+        NotificationCompletedEvent event = NotificationCompletedEvent.create(
                 resultDetails.taskId()
         );
 
