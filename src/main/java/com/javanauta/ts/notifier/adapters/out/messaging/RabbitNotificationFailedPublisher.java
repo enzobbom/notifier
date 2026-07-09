@@ -21,7 +21,7 @@ public class RabbitNotificationFailedPublisher implements NotificationFailedPubl
         NotificationFailureType notificationFailureType = switch (notificationResultDetails.notificationResult()) {
             case PERMANENT_FAILURE -> NotificationFailureType.PERMANENT;
             case TEMPORARY_FAILURE -> NotificationFailureType.TEMPORARY;
-            default -> throw new IllegalArgumentException("Only 'FAILURE' types can be used here");
+            default -> throw new IllegalArgumentException("Only 'FAILURE' results are expected here");
         };
 
         NotificationFailedEvent event = NotificationFailedEvent.create(
