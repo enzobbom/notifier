@@ -5,12 +5,17 @@ import com.javanauta.ts.notifier.adapters.out.email.exception.EmailException;
 import com.javanauta.ts.notifier.application.data.NotificationResultDetails;
 import com.javanauta.ts.notifier.application.data.enums.NotificationResult;
 import com.javanauta.ts.notifier.application.usecase.NotificationFailureService;
+import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
+import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -21,35 +26,76 @@ public class NotificationFailedRecoverer implements MessageRecoverer {
 
     @Override
     public void recover(Message message, Throwable cause) {
-        NotificationRequestEvent event = (NotificationRequestEvent) messageConverter.fromMessage(message);
+        // Pre-listener conversion failure
+        if (findCause(cause, MessageConversionException.class) != null) {
+            log.error("""
+                    Invalid NotificationRequestEvent received.
+                    Payload:
+                    {}
+                    """, new String(message.getBody(), StandardCharsets.UTF_8), cause);
+            return;
+        }
+
+        NotificationRequestEvent event;
+        try {
+            event = (NotificationRequestEvent) messageConverter.fromMessage(message);
+        } catch (MessageConversionException e) {
+            log.error("""
+                    Attempt to deserialize NotificationRequestEvent within the Recoverer failed.
+                    Payload:
+                    {}
+                    """, new String(message.getBody(), StandardCharsets.UTF_8), e);
+            return;
+        }
+
+        // Validation errors
+        ConstraintViolationException constraintViolationException = findCause(cause, ConstraintViolationException.class);
+        if (constraintViolationException != null) {
+            List<String> constraintMessages = constraintViolationException
+                    .getConstraintViolations()
+                    .stream()
+                    .map(violation -> violation.getPropertyPath() + " " + violation.getMessage())
+                    .toList();
+
+            log.error("Validation of NotificationRequestEvent for Task {} has failed: {}",
+                    event.taskId(),
+                    String.join(", ", constraintMessages));
+
+            return;
+        }
+
         log.error("Notification for Task {} has failed", event.taskId(), cause);
 
-        Throwable underlyingCause = getUnderlyingCause(cause);
-
+        // Business error
         NotificationResult result;
-        if (underlyingCause instanceof EmailException emailException) {
+        String errorMsg;
+        EmailException emailException = findCause(cause, EmailException.class);
+        if (emailException != null) {
             result = switch (emailException.getCode()) {
                 case INFRASTRUCTURE_UNAVAILABLE -> NotificationResult.TEMPORARY_FAILURE;
                 case INTERNAL_ERROR -> NotificationResult.PERMANENT_FAILURE;
             };
-        } else {
+            errorMsg = emailException.getMessage();
+
+        } else { // Any other unhandled exception
             result = NotificationResult.PERMANENT_FAILURE;
+            errorMsg = "Notification could not be sent due to an internal error";
         }
 
         notificationFailureService.handleNotificationFailure(
                 new NotificationResultDetails(
                         event.taskId(),
                         result,
-                        underlyingCause.getMessage()
-                )
-        );
+                        errorMsg));
     }
 
-    private Throwable getUnderlyingCause(Throwable cause) {
-        Throwable currentCause = cause;
-        while (currentCause.getCause() != null) {
-            currentCause = currentCause.getCause();
+    private <T extends Throwable> T findCause(Throwable throwable, Class<T> type) {
+        while (throwable != null) {
+            if (type.isInstance(throwable)) {
+                return type.cast(throwable);
+            }
+            throwable = throwable.getCause();
         }
-        return currentCause;
+        return null;
     }
 }
