@@ -1,9 +1,9 @@
 package com.javanauta.ts.notifier.adapters.out.messaging;
 
-import com.javanauta.ts.events.messaging.Exchanges;
-import com.javanauta.ts.events.messaging.RoutingKeys;
 import com.javanauta.ts.events.notification.NotificationFailedEvent;
 import com.javanauta.ts.events.notification.enums.NotificationFailureType;
+import com.javanauta.ts.events.notification.messaging.Exchanges;
+import com.javanauta.ts.events.notification.messaging.RoutingKeys;
 import com.javanauta.ts.notifier.application.data.NotificationResultDetails;
 import com.javanauta.ts.notifier.ports.out.messaging.NotificationFailedPublisher;
 import lombok.AllArgsConstructor;

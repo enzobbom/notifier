@@ -1,8 +1,8 @@
 package com.javanauta.ts.notifier.adapters.out.messaging;
 
-import com.javanauta.ts.events.messaging.Exchanges;
-import com.javanauta.ts.events.messaging.RoutingKeys;
 import com.javanauta.ts.events.notification.NotificationCompletedEvent;
+import com.javanauta.ts.events.notification.messaging.Exchanges;
+import com.javanauta.ts.events.notification.messaging.RoutingKeys;
 import com.javanauta.ts.notifier.application.data.NotificationResultDetails;
 import com.javanauta.ts.notifier.ports.out.messaging.NotificationCompletedPublisher;
 import lombok.AllArgsConstructor;

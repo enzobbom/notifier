@@ -1,6 +1,6 @@
 package com.javanauta.ts.notifier.adapters.in.messaging.validation;
 
-import com.javanauta.ts.events.notification.Event;
+import com.javanauta.ts.events.Event;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;

@@ -1,7 +1,7 @@
 package com.javanauta.ts.notifier.adapters.in.messaging;
 
-import com.javanauta.ts.events.messaging.Queues;
 import com.javanauta.ts.events.notification.NotificationRequestEvent;
+import com.javanauta.ts.events.notification.messaging.Queues;
 import com.javanauta.ts.notifier.adapters.in.messaging.mapper.NotificationEventMapper;
 import com.javanauta.ts.notifier.adapters.in.messaging.validation.NotificationEventValidator;
 import com.javanauta.ts.notifier.adapters.out.email.exception.EmailException;

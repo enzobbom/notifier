@@ -1,8 +1,8 @@
 package com.javanauta.ts.notifier.adapters.in.messaging.config;
 
-import com.javanauta.ts.events.messaging.Exchanges;
-import com.javanauta.ts.events.messaging.Queues;
-import com.javanauta.ts.events.messaging.RoutingKeys;
+import com.javanauta.ts.events.notification.messaging.Exchanges;
+import com.javanauta.ts.events.notification.messaging.Queues;
+import com.javanauta.ts.events.notification.messaging.RoutingKeys;
 import com.javanauta.ts.notifier.adapters.in.messaging.NotificationFailedRecoverer;
 import org.aopalliance.aop.Advice;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
