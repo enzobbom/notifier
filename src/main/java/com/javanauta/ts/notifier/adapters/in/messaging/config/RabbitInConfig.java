@@ -20,28 +20,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitInConfig {
-
-    @Bean
-    public TopicExchange notificationExchange() {
-        return new TopicExchange(Exchanges.NOTIFICATION);
-    }
-
-    @Bean
-    public Queue notificationRequestQueue() {
-        return new Queue(Queues.NOTIFICATION_REQUEST);
-    }
-
-    @Bean
-    public Binding notificationBinding(
-            Queue notificationRequestQueue,
-            TopicExchange notificationExchange) {
-
-        return BindingBuilder
-                .bind(notificationRequestQueue)
-                .to(notificationExchange)
-                .with(RoutingKeys.NOTIFICATION_REQUEST);
-    }
-
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
             ConnectionFactory connectionFactory,
