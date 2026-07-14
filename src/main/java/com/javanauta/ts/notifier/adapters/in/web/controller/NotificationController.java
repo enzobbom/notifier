@@ -5,6 +5,7 @@ import com.javanauta.ts.notifier.application.usecase.SendNotificationService;
 import com.javanauta.ts.notifier.adapters.in.web.dto.NotifyTaskRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +20,14 @@ public class NotificationController {
     private final SendNotificationService sendNotificationService;
     private final NotificationDTOMapper notificationDTOMapper;
 
+//    @PostMapping
+//    public ResponseEntity<Void> sendNotification(@Valid @RequestBody NotifyTaskRequestDTO notifyTaskRequestDTO) {
+//        sendNotificationService.sendNotification(notificationDTOMapper.toCommand(notifyTaskRequestDTO));
+//        return ResponseEntity.ok().build();
+//    }
+
     @PostMapping
-    public ResponseEntity<Void> sendNotification(@Valid @RequestBody NotifyTaskRequestDTO notifyTaskRequestDTO) {
-        sendNotificationService.sendNotification(notificationDTOMapper.toCommand(notifyTaskRequestDTO));
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> sendNotification() {
+        return ResponseEntity.status(HttpStatus.GONE).body("End point currently disabled.");
     }
 }
