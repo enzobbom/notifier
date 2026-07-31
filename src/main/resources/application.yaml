@@ -1,24 +1,7 @@
-# SMTP credentials: actual credentials to access an SMTP server (e.g. Gmail App Password)
-# If not defined, a No-Op email service will be used
-
 spring:
   application:
     name: ts-notifier
     description: 'Task Scheduler - Notifier module'
-  server:
-    port: 8082
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: health
-    health:
-      mail:
-        enabled: false
-    endpoint:
-      health:
-        probes:
-          enabled: true
   mail:
     host: smtp.gmail.com
     port: 587
@@ -37,13 +20,27 @@ spring:
           writetimeout: 5000
   thymeleaf:
     enable: true
-  sending:
-    email:
-      sender: ${TS_SMTP_EMAIL:}
-      senderName: 'Javanauta'
   rabbitmq:
-    host: ${SPRING_RABBITMQ_HOST:localhost}
-    port: ${SPRING_RABBITMQ_PORT:5672}
-    username: ${SPRING_RABBITMQ_USERNAME:guest}
-    password: ${SPRING_RABBITMQ_PASSWORD:guest}
-    virtual-host: ${SPRING_RABBITMQ_VIRTUAL_HOST:/}
+    host: ${TS_RABBITMQ_HOST:localhost}
+    port: 5672
+    username: ${TS_RABBITMQ_NOTIFIER_USER:guest}
+    password: ${TS_RABBITMQ_NOTIFIER_PASSWORD:guest}
+    virtual-host: ${TS_RABBITMQ_VHOST:/}
+server:
+  port: 8082
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  health:
+    mail:
+      enabled: false
+  endpoint:
+    health:
+      probes:
+        enabled: true
+sending:
+  email:
+    sender: ${TS_SMTP_EMAIL:}
+    senderName: 'Javanauta'
