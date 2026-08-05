@@ -22,7 +22,7 @@ spring:
     enable: true
   rabbitmq:
     host: ${TS_RABBITMQ_HOST:localhost}
-    port: 5672
+    port: ${TS_RABBITMQ_PORT:5672}
     username: ${TS_RABBITMQ_NOTIFIER_USER:guest}
     password: ${TS_RABBITMQ_NOTIFIER_PASSWORD:guest}
     virtual-host: ${TS_RABBITMQ_VHOST:/}
