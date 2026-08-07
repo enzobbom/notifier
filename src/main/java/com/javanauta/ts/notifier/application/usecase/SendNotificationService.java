@@ -1,9 +1,11 @@
 package com.javanauta.ts.notifier.application.usecase;
 
 import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
-import com.javanauta.ts.notifier.application.port.email.EmailComposer;
-import com.javanauta.ts.notifier.application.port.email.EmailMessage;
-import com.javanauta.ts.notifier.application.port.email.EmailSender;
+import com.javanauta.ts.notifier.application.data.NotificationResultDetails;
+import com.javanauta.ts.notifier.application.data.enums.NotificationResult;
+import com.javanauta.ts.notifier.ports.out.email.EmailComposer;
+import com.javanauta.ts.notifier.ports.out.email.EmailSender;
+import com.javanauta.ts.notifier.ports.out.messaging.NotificationCompletedPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,14 +16,21 @@ import org.springframework.stereotype.Service;
 public class SendNotificationService {
     private final EmailComposer emailComposer;
     private final EmailSender emailSender;
+    private final NotificationCompletedPublisher notificationCompletedPublisher;
 
     public void sendNotification(NotifyTaskCommand notifyTaskCommand) {
-        if (!notifyTaskCommand.canBeNotified()) {return;}
         sendEmailNotification(notifyTaskCommand);
+
+        notificationCompletedPublisher.publishNotificationCompleted(
+                new NotificationResultDetails(
+                notifyTaskCommand.id(),
+                NotificationResult.SUCCESS,
+                null));
+
+        log.info("Task '{}' was successfully notified and completion event was published", notifyTaskCommand.id());
     }
 
     private void sendEmailNotification(NotifyTaskCommand notifyTaskCommand) {
         emailSender.send(emailComposer.compose(notifyTaskCommand));
-        log.info("Task '{}' was successfully notified by email", notifyTaskCommand.id());
     }
 }

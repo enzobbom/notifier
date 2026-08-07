@@ -1,0 +1,24 @@
+package com.javanauta.ts.notifier.adapters.in.messaging.mapper;
+
+
+import com.javanauta.ts.events.notification.NotificationRequestEvent;
+import com.javanauta.ts.notifier.application.command.NotifyTaskCommand;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import java.time.ZoneId;
+
+@Mapper(componentModel = "spring", imports = { ZoneId.class, NotificationEventMapper.class })
+public interface NotificationEventMapper {
+    @Mapping(target = "id", source = "taskId")
+    @Mapping(target = "title", source = "taskName")
+    @Mapping(target = "description", source = "taskDescription")
+    @Mapping(target = "scheduledDateTime", source = "taskScheduledDateTime")
+    @Mapping(target = "recipient", source = "taskRecipient")
+    @Mapping(target = "timeZoneId", expression = "java(NotificationEventMapper.convertTimeZoneId(event))")
+    NotifyTaskCommand toCommand(NotificationRequestEvent event);
+
+    static ZoneId convertTimeZoneId(NotificationRequestEvent event) {
+        return ZoneId.of(event.taskZoneId());
+    }
+}

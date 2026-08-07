@@ -1,0 +1,21 @@
+package com.javanauta.ts.notifier.adapters.in.web.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.extern.jackson.Jacksonized;
+
+import java.time.Instant;
+
+@Builder
+@Jacksonized // Ensures Jackson uses Builder in Record class
+public record NotifyTaskRequestDTO(
+        @NotBlank String id,
+        @NotBlank String name,
+        @NotNull String description,
+        @NotNull Instant creationDateTime,
+        @NotNull Instant scheduledDateTime,
+        @NotBlank @Email String userEmail,
+        @NotBlank String timeZoneId
+) {}
